@@ -28,7 +28,7 @@ export default class Calculator extends Component{
             }else if(this.state.numeroDisplay != ''){
                 this.setState({numero1: this.state.numeroDisplay})
             }
-        }else if(this.state.operacao == '' && ['+','-','/','*'].indexOf(e.target.textContent) == -1){
+        }else if(this.state.operacao == '' && ['+','-','/','*','='].indexOf(e.target.textContent) == -1){
             console.log('N1')            
             this.setState({numero1: this.state.numero1 + e.target.textContent})
         }else if(this.state.numero1 != '' && this.state.operacao != '' && ['+','-','/','*','='].indexOf(e.target.textContent) == -1){            
