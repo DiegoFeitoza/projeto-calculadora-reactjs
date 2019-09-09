@@ -4,30 +4,85 @@ import Button from '../Components/Button'
 import Display from '../Components/Display'
 
 export default class Calculator extends Component{
-    render(){
+    state = {
+        numeroDisplay:'',
+        numero1: '',
+        numero2: '',
+        operacao: ''
+    }
+
+    lerBotao = (e) => {
+        // console.log('Texto btn: ', e.target.textContent)
+        if(e.target.textContent.toLowerCase() == 'c'){
+            this.setState({
+                numeroDisplay:'',
+                numero1: '',
+                numero2: '',
+                operacao: ''
+            })
+        }else if(['+','-','/','*'].indexOf(e.target.textContent) != -1){
+            console.log('OP')
+            this.setState({operacao: e.target.textContent})
+            if(this.state.numero1 == '' && this.state.numeroDisplay == '') {
+                this.setState({numero1: '0'})
+            }else if(this.state.numeroDisplay != ''){
+                this.setState({numero1: this.state.numeroDisplay})
+            }
+        }else if(this.state.operacao == '' && ['+','-','/','*'].indexOf(e.target.textContent) == -1){
+            console.log('N1')            
+            this.setState({numero1: this.state.numero1 + e.target.textContent})
+        }else if(this.state.numero1 != '' && this.state.operacao != '' && ['+','-','/','*','='].indexOf(e.target.textContent) == -1){            
+            console.log('N2')
+            this.setState({numero2: this.state.numero2 + e.target.textContent})
+        }else if(e.target.textContent == '='){
+            console.log('Igual')
+            if(this.state.numero1 != '' && this.state.numero2 != ''){
+                console.log('Calculando')
+                console.log(eval(this.state.numero1+this.state.operacao+this.state.numero2))
+                let resultado = ''+eval(this.state.numero1+this.state.operacao+this.state.numero2)
+                this.setState({
+                    numero1: '',
+                    numero2: '',
+                    operacao: '',
+                    numeroDisplay: resultado
+                })
+            }
+        }
+
+        if(e.target.textContent != '='){           
+            this.setState((prevState) => ({
+                numeroDisplay: prevState.numero1 + prevState.operacao + prevState.numero2
+            }))
+        }
+    }
+
+    render(){        
         return(
             <React.Fragment>
                 <h1>Calculator</h1>
                 <div className="calculator">
-                    <Display />
-                    <Button nomeBtn="9" med="qd1"/>
-                    <Button nomeBtn="8" med="qd1"/>
-                    <Button nomeBtn="7" med="qd1"/>
-                    <Button nomeBtn="-" med="qd1"/>
+                    <Display exibir={this.state.numeroDisplay}/>
 
-                    <Button nomeBtn="6" med="qd1"/>
-                    <Button nomeBtn="5" med="qd1"/>
-                    <Button nomeBtn="4" med="qd1"/>
-                    <Button nomeBtn="+" med="qd1"/>
+                    <Button nomeBtn="C" med="qd4" clickBtn={this.lerBotao} />
+                    
+                    <Button nomeBtn="7" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="8" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="9" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="-" med="qd1" clickBtn={this.lerBotao} />
 
-                    <Button nomeBtn="3" med="qd1" />
-                    <Button nomeBtn="2" med="qd1" />
-                    <Button nomeBtn="1" med="qd1" />
-                    <Button nomeBtn="*" med="qd1" />
+                    <Button nomeBtn="4" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="6" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="5" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="+" med="qd1" clickBtn={this.lerBotao} />
 
-                    <Button nomeBtn="0" med="qd2" />
-                    <Button nomeBtn="=" med="qd1" />
-                    <Button nomeBtn="/" med="qd1" />
+                    <Button nomeBtn="1" med="qd1" clickBtn={this.lerBotao}/>
+                    <Button nomeBtn="2" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="3" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="*" med="qd1" clickBtn={this.lerBotao} />
+
+                    <Button nomeBtn="0" med="qd2" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="=" med="qd1" clickBtn={this.lerBotao} />
+                    <Button nomeBtn="/" med="qd1" clickBtn={this.lerBotao} />
                 </div>
             </React.Fragment>
         )
