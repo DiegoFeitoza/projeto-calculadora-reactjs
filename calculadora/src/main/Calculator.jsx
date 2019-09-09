@@ -26,7 +26,9 @@ export default class Calculator extends Component{
             if(this.state.numero1 == '' && this.state.numeroDisplay == '') {
                 this.setState({numero1: '0'})
             }else if(this.state.numeroDisplay != ''){
-                this.setState({numero1: this.state.numeroDisplay})
+                let ultimoDigito = this.state.numeroDisplay.substr(this.state.numeroDisplay.length-1);
+
+                this.setState({numero1: (['-','+','*','/'].indexOf(ultimoDigito) != -1) ? this.state.numeroDisplay.substr(0,this.state.numeroDisplay.length-1) : this.state.numeroDisplay.substr(0,this.state.numeroDisplay.length),numero2: ''})
             }
         }else if(this.state.operacao == '' && ['+','-','/','*','='].indexOf(e.target.textContent) == -1){
             console.log('N1')            
