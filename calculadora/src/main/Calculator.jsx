@@ -59,7 +59,7 @@ export default class Calculator extends Component{
     render(){        
         return(
             <React.Fragment>
-                <h1>Calculator</h1>
+                <h1>Calculadora</h1>
                 <div className="calculator">
                     <Display exibir={this.state.numeroDisplay}/>
 
